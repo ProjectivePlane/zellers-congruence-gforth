@@ -1,3 +1,4 @@
+
 0 constant saturday
 1 constant sunday
 2 constant monday
@@ -19,6 +20,8 @@
 11 constant november
 12 constant december
 
+\ Internally, January and February are considered to be the last two months
+\ of the previous year, to simplify calculations involving leap years.
 3 constant modified-march
 4 constant modified-april
 5 constant modified-may
@@ -39,22 +42,27 @@
 	1- r>
     then r> ;
 
+\ Separate out year into century and year of century terms.
 : calculation-intermediates
     rot rot
     swap
     dup 100 mod swap
     100 / ;
 
+\ Number of days to add to 28 to get month length.
 : month-term
     1+ 13 * 5 / ;
 
+\ Days contributed by leap years.
 : year-term
     dup 4 / + ;
 
+\ Days contributed by centuries.
 : gregorian-century-term
     dup 4 / swap
     5 * + ;
 
+\ Days contributed by centuries.
 : julian-century-term
     5 swap 6 * - ;
 
